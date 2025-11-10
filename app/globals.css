@@ -1,0 +1,132 @@
+:root {
+  --color-food-orange: #FF6B35;
+  --color-food-orange-light: #FF8C61;
+  --color-food-orange-dark: #E55A2B;
+  --color-food-pink: #FF6B9D;
+  --color-food-gray: #6B7280;
+  --color-food-gray-light: #9CA3AF;
+  --color-food-gray-dark: #374151;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-white text-gray-900;
+  }
+}
+
+@layer components {
+  /* Food Button Styles */
+  .food-btn {
+    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-150 ease-out;
+    @apply bg-food-orange text-white hover:bg-food-orange-dark;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply focus:outline-none focus:ring-2 focus:ring-food-orange focus:ring-offset-2;
+  }
+
+  .food-btn-secondary {
+    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-150 ease-out;
+    @apply bg-white text-food-orange border-2 border-food-orange;
+    @apply hover:bg-food-orange hover:text-white;
+    @apply focus:outline-none focus:ring-2 focus:ring-food-orange focus:ring-offset-2;
+  }
+
+  /* Food Card Styles */
+  .food-card {
+    @apply bg-white rounded-lg shadow-md overflow-hidden;
+    @apply transition-all duration-150 ease-out;
+    @apply hover:shadow-xl hover:-translate-y-1;
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .food-card:hover {
+    transform: translateY(-4px);
+  }
+
+  /* Food Input Styles */
+  .food-input {
+    @apply w-full px-4 py-3 rounded-lg border border-gray-300;
+    @apply focus:outline-none focus:ring-2 focus:ring-food-orange focus:border-transparent;
+    @apply transition-all duration-150 ease-out;
+    @apply placeholder:text-gray-400;
+  }
+
+  .food-input-error {
+    @apply border-red-500 focus:ring-red-500;
+  }
+
+  /* Food Modal Styles */
+  .food-modal {
+    @apply fixed inset-0 z-50 flex items-center justify-center;
+    @apply bg-black bg-opacity-50 backdrop-blur-sm;
+  }
+
+  .food-modal-content {
+    @apply bg-white rounded-lg shadow-2xl p-6;
+    @apply w-full max-w-md mx-4;
+    @apply max-h-[90vh] overflow-y-auto;
+    animation: slideUp 0.3s ease-out;
+  }
+
+  /* Food Status Styles */
+  .food-status {
+    @apply px-3 py-1 rounded-full text-sm font-semibold;
+  }
+
+  .food-status-open {
+    @apply bg-green-100 text-green-800;
+  }
+
+  .food-status-closed {
+    @apply bg-orange-100 text-orange-800;
+  }
+
+  /* Error Message Styles */
+  .food-error {
+    @apply text-red-500 text-sm mt-1;
+  }
+
+  /* Empty State Styles */
+  .empty-state-message {
+    @apply text-center py-12 text-gray-500;
+  }
+
+  /* Entry Animation */
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Hover Animation for Cards */
+  .food-card-hover {
+    @apply transition-all duration-150 ease-out;
+  }
+
+  .food-card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+}
+
+@layer utilities {
+  .food-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .food-center {
+    @apply mx-auto;
+  }
+
+  .food-full-mobile {
+    @apply w-full md:w-auto;
+  }
+}
