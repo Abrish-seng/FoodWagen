@@ -47,7 +47,7 @@ export let foods: FoodData[] = [
   {
     id: '4',
     name: 'Cupcake',
-    price: '1.99',
+    price: '111.99',
     rating: 5.0,
     image: '/images/Capcake.png',
     restaurantName: 'Subway',
