@@ -27,8 +27,8 @@
     @apply focus:outline-none focus:ring-2 focus:ring-food-orange focus:ring-offset-2;
   }
   .food-container {
-    @apply align-middle;
-    @apply max-w-5xl mx-auto ;
+    
+    @apply  md:max-w-5xl w-full md:mx-auto px-4;
   }
 
   .food-btn-secondary {
