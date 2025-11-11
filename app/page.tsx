@@ -64,7 +64,7 @@ export default function Home() {
     try {
       const response = await axios.post('/api/foods', {
         name: data.name,
-        price: '0.00', // You might want to add price to the form
+        price: '0.00', 
         rating: parseFloat(data.rating),
         image: data.image,
         restaurantName: data.restaurantName,
