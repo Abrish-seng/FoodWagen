@@ -18,11 +18,12 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-food-gray-dark text-white py-12">
-      <div className="food-container">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+    
+      <footer className="bg-food-gray-dark text-white py-12 flex justify-center items-center">
+        <div className="md:max-w-5xl w-full md:mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5  mb-8">
           {/* Company Column */}
-          <div>
+          <div className="text-center md:text-left">
             <h3 className="text-lg font-bold mb-4">Company</h3>
             <ul className="space-y-2 text-gray-300">
               <li>
@@ -49,7 +50,7 @@ export default function Footer() {
           </div>
 
           {/* Contact Column */}
-          <div>
+          <div className="text-center md:text-left">
             <h3 className="text-lg font-bold mb-4">Contact</h3>
             <ul className="space-y-2 text-gray-300">
               <li>
@@ -71,7 +72,7 @@ export default function Footer() {
           </div>
 
           {/* Legal Column */}
-          <div>
+          <div className="text-center md:text-left">
             <h3 className="text-lg font-bold mb-4">Legal</h3>
             <ul className="space-y-2 text-gray-300">
               <li>
@@ -98,7 +99,7 @@ export default function Footer() {
           </div>
 
           {/* Follow Us & Newsletter */}
-          <div>
+          <div className="text-center md:text-left lg:col-span-2 mt-8 md:mt-0">
             <h3 className="text-lg font-bold mb-4 uppercase">Follow Us</h3>
             <div className="flex space-x-4 mb-6">
               <a
@@ -146,7 +147,7 @@ export default function Footer() {
               Receive exclusive offers in your mailbox
             </p>
 
-            <form onSubmit={handleSubscribe} className="flex space-x-2">
+            <form onSubmit={handleSubscribe} className="flex flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0">
               <div className="flex-1 relative">
                 <input
                   type="email"
@@ -187,13 +188,14 @@ export default function Footer() {
         <div className="border-t border-gray-700 my-8"></div>
 
         {/* Copyright */}
-        <div className="flex flex-col md:flex-row justify-between items-center text-gray-300 text-sm">
-          <p>All rights Reserved © Your Company, 2021</p>
+        <div className="flex flex-col md:flex-row justify-center md:justify-between items-center text-gray-300 text-sm">
+          <p>All rights Reserved © Your Company, 2025</p>
           <p className="flex items-center space-x-1 mt-2 md:mt-0">
-            Made with <span className="text-food-orange">❤️</span> by Themewagon
+            Made with <span className="text-food-orange">❤️</span> by Abrhaley Gebreslassie
           </p>
         </div>
       </div>
     </footer>
+    
   )
 }
