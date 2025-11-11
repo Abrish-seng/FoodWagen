@@ -45,7 +45,7 @@ export default function FoodCard({ food, onEdit, onDelete }: FoodCardProps) {
 
   return (
     <div className="flex justify-center items-center bg-gray-50">
-      <article className="food-card food-card-hover">
+      <article className="food-card food-card-hover ">
         {/* Food Image */}
         <div className="relative h-48 overflow-hidden">
           <img
