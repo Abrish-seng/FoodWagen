@@ -15,48 +15,22 @@ export async function GET(
   return NextResponse.json(food);
 }
 
+
+
 // PUT /api/foods/[id]
-export async function PUT(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest) {
   try {
-    const { id } = await context.params
-    const body = await request.json()
-    const index = foods.findIndex((f) => f.id === id)
-
-    if (index === -1) {
-      return NextResponse.json({ error: 'Food not found' }, { status: 404 })
-    }
-
-    foods[index] = {
-      ...foods[index],
+    const body = await request.json();
+    const newFood = {
+      id: Date.now().toString(), // auto-generated
       ...body,
-      updatedAt: new Date().toISOString(),
-    }
+      createdAt: new Date().toISOString(),
+    };
 
-    return NextResponse.json(foods[index])
+    foods.unshift(newFood);
+
+    return NextResponse.json(newFood, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to update food' }, { status: 500 })
-  }
-}
-
-// DELETE /api/foods/[id]
-export async function DELETE(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
-  try {
-    const { id } = await context.params
-    const index = foods.findIndex((f) => f.id === id)
-
-    if (index === -1) {
-      return NextResponse.json({ error: 'Food not found' }, { status: 404 })
-    }
-
-    foods.splice(index, 1)
-    return NextResponse.json({ success: true })
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to delete food' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to create food' }, { status: 500 });
   }
 }

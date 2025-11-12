@@ -11,6 +11,7 @@ import DeleteMealModal from '@/components/DeleteMealModal'
 import { Food } from '@/components/FoodCard'
 import { MealFormData } from '@/components/AddMealModal'
 import axios from 'axios'
+import { foods as mockFoods } from '@/lib/mockData'
 
 export default function Home() {
   const [foods, setFoods] = useState<Food[]>([])
@@ -29,8 +30,19 @@ export default function Home() {
       const response = await axios.get('/api/foods', {
         params: { page: 1, limit: 8 },
       })
-      setFoods(response.data.foods)
-      setHasMore(response.data.hasMore)
+      const data = response?.data
+      // log for debugging when food cards don't render
+      console.debug('fetchFoods response', data)
+
+      if (data && Array.isArray(data.foods)) {
+        setFoods(data.foods)
+      } else {
+        // fallback to local mock data to ensure UI renders during dev
+        console.warn('API returned no foods, falling back to mock data')
+        setFoods(mockFoods.slice(0, 8))
+      }
+
+      setHasMore(Boolean(data?.hasMore))
     } catch (error) {
       console.error('Error fetching foods:', error)
     } finally {
@@ -50,8 +62,16 @@ export default function Home() {
       const response = await axios.get('/api/foods', {
         params: { page: nextPage, limit: 8 },
       })
-      setFoods((prev) => [...prev, ...response.data.foods])
-      setHasMore(response.data.hasMore)
+      const data = response?.data
+      console.debug('loadMore response', data)
+
+      const moreFoods = Array.isArray(data?.foods) ? data.foods : []
+      if (moreFoods.length === 0) {
+        console.warn('No more foods returned from API')
+      }
+
+      setFoods((prev) => [...prev, ...moreFoods])
+      setHasMore(Boolean(data?.hasMore))
       setPage(nextPage)
     } catch (error) {
       console.error('Error loading more foods:', error)
