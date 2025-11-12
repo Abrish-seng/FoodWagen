@@ -1,28 +1,27 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { foods } from '@/lib/mockData'
+import { NextRequest, NextResponse } from "next/server";
+import { foods } from "@/lib/mockData";
 
-// GET /api/foods/[id]
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params
-  const food = foods.find((f) => f.id === id)
+  const { id } = await context.params; // <-- await the params
+  const food = foods.find((f) => f.id === id);
 
   if (!food) {
-    return NextResponse.json({ error: 'Food not found' }, { status: 404 })
+    return NextResponse.json({ error: "Food not found" }, { status: 404 });
   }
 
-  return NextResponse.json(food)
+  return NextResponse.json(food);
 }
 
 // PUT /api/foods/[id]
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await params
+    const { id } = await context.params
     const body = await request.json()
     const index = foods.findIndex((f) => f.id === id)
 
@@ -45,10 +44,10 @@ export async function PUT(
 // DELETE /api/foods/[id]
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await params
+    const { id } = await context.params
     const index = foods.findIndex((f) => f.id === id)
 
     if (index === -1) {
