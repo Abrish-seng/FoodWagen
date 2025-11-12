@@ -23,5 +23,18 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  return NextResponse.json(foods);
+  const searchParams = request.nextUrl.searchParams
+  const page = parseInt(searchParams.get('page') || '1')
+  const limit = parseInt(searchParams.get('limit') || '8')
+
+  const start = (page - 1) * limit
+  const end = start + limit
+  const paginatedFoods = foods.slice(start, end)
+  const hasMore = end < foods.length
+
+  return NextResponse.json({
+    foods: paginatedFoods,
+    hasMore,
+    total: foods.length,
+  })
 }

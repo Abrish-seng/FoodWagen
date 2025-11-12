@@ -42,7 +42,15 @@ export default function Home() {
         setFoods(mockFoods.slice(0, 8))
       }
 
-      setHasMore(Boolean(data?.hasMore))
+      // set current page to 1 and compute hasMore robustly using total when provided
+      setPage(1)
+      if (typeof data?.hasMore === 'boolean') {
+        setHasMore(data.hasMore)
+      } else if (typeof data?.total === 'number') {
+        setHasMore((data.foods?.length ?? 0) < data.total)
+      } else {
+        setHasMore(false)
+      }
     } catch (error) {
       console.error('Error fetching foods:', error)
     } finally {
@@ -70,8 +78,18 @@ export default function Home() {
         console.warn('No more foods returned from API')
       }
 
-      setFoods((prev) => [...prev, ...moreFoods])
-      setHasMore(Boolean(data?.hasMore))
+      setFoods((prev) => {
+        const combined = [...prev, ...moreFoods]
+        // compute hasMore: prefer server-provided flag, otherwise derive from total
+        if (typeof data?.hasMore === 'boolean') {
+          setHasMore(data.hasMore)
+        } else if (typeof data?.total === 'number') {
+          setHasMore(combined.length < data.total)
+        } else {
+          setHasMore(moreFoods.length > 0)
+        }
+        return combined
+      })
       setPage(nextPage)
     } catch (error) {
       console.error('Error loading more foods:', error)
