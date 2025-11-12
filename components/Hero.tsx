@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FoodData, foods } from "../lib/mockData";
 import { FaSearch } from "react-icons/fa";
 export default function Hero({ initialFoods }: { initialFoods?: FoodData[] }) {
@@ -11,21 +11,37 @@ export default function Hero({ initialFoods }: { initialFoods?: FoodData[] }) {
   const [filteredFoods, setFilteredFoods] = useState<FoodData[]>([]);
 
   const handleSearch = () => {
-    const query = searchQuery.trim().toLowerCase();
+    // trigger an immediate search (same logic as the live search)
+    doSearch(searchQuery)
+  };
 
-    if (query === "") {
-      setFilteredFoods([]);
-      return;
+  // helper search function: for very short queries prefer startsWith to match first letters
+  const doSearch = (query: string) => {
+    const q = query.trim().toLowerCase()
+    if (q === "") {
+      setFilteredFoods([])
+      return
     }
 
-    // Filter the mock data array (use injected initialFoods for tests if provided)
-    const dataSource = initialFoods ?? foods;
-    const results = dataSource.filter((food) =>
-      food.name.toLowerCase().includes(query)
-    );
+    const dataSource = initialFoods ?? foods
+    const results =
+      q.length <= 2
+        ? dataSource.filter((food) =>
+            food.name.toLowerCase().startsWith(q)
+          )
+        : dataSource.filter((food) => food.name.toLowerCase().includes(q))
 
-    setFilteredFoods(results);
-  };
+    setFilteredFoods(results)
+  }
+
+  // live search: run when user types, with a small debounce
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      doSearch(searchQuery)
+    }, 200)
+
+    return () => clearTimeout(handler)
+  }, [searchQuery, initialFoods])
 
   return (
     <section className="relative bg-[#ffb30e] text-white py-12 md:py-20 overflow-hidden">
