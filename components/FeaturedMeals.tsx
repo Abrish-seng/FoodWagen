@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import FoodCard, { Food } from './FoodCard'
 
 interface FeaturedMealsProps {
-  foods: Food[]
+  foods?: Food[]
   onEdit: (food: Food) => void
   onDelete: (foodId: string) => void
   onLoadMore: () => void
@@ -13,14 +13,17 @@ interface FeaturedMealsProps {
 }
 
 export default function FeaturedMeals({
-  foods,
+  foods = [],
   onEdit,
   onDelete,
   onLoadMore,
   hasMore,
   isLoading = false,
 }: FeaturedMealsProps) {
-  if (foods.length === 0 && !isLoading) {
+  // defensive: ensure foods is always an array
+  const items = foods ?? []
+
+  if (items.length === 0 && !isLoading) {
     return (
       <section className="py-12">
         <div className="food-container">
@@ -42,7 +45,7 @@ export default function FeaturedMeals({
 
         {/* Food Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-8 gap-x-2 gap-y-6 ">
-          {foods.map((food) => (
+          {items.map((food) => (
             <FoodCard
               key={food.id}
               food={food}
